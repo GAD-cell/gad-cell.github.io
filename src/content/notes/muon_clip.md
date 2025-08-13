@@ -1,8 +1,14 @@
 ---
-title: "Advanced TypeScript Patterns"
-description: "A collection of useful TypeScript patterns and when to use them"
-publishedAt: 2024-01-15
-category: "TypeScript"
+title: "Muon clip"
+description: "Quelques astuces CSS"
+publishedAt: 2025-08-13
+category: "Web"
+draft: false
+image: "/images/schools/polimi.png"
+links:
+  - type: "github"
+    url: "https://github.com/GAD-cell/muon-clip"
+
 ---
 
 Here are some TypeScript patterns I've found particularly useful:

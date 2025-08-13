@@ -1,5 +1,5 @@
 ---
-import ArticleCard from "../../components/ui/ArticleCard.astro";
+import ProjectCard from "../../components/ui/ProjectCard.astro";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import BaseLayout from "../../components/layout/BaseLayout.astro";
@@ -15,7 +15,9 @@ const notes = await getCollection("notes", ({ data }) => {
 });
 
 const categories = [...new Set(notes.map((note: Note) => note.data.category))];
-const sortedNotes = notes.sort((a: Note, b: Note) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+const sortedNotes = notes.sort(
+  (a: Note, b: Note) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+);
 ---
 
 <BaseLayout title="Projects" description="Short-form thoughts and learnings">
@@ -25,16 +27,16 @@ const sortedNotes = notes.sort((a: Note, b: Note) => b.data.publishedAt.getTime(
     <Categories categories={categories} currentPath={Astro.url.pathname} basePath="notes" />
 
     <ContentList>
-      {
-        sortedNotes.map((note) => (
-          <ArticleCard
-            title={note.data.title}
-            description={note.data.description}
-            url={`/notes/${note.id}`}
-            date={note.data.publishedAt}
-          />
-        ))
-      }
+      {sortedNotes.map((note) => (
+        <ProjectCard
+          title={note.data.title}
+          description={note.data.description}
+          url={`/notes/${note.id}`}
+          date={note.data.publishedAt}
+          image={note.data.image}         // Image illustrative
+          links={note.data.links || []}   // Liens externes
+        />
+      ))}
     </ContentList>
   </Container>
 </BaseLayout>

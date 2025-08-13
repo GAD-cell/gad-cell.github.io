@@ -1,0 +1,128 @@
+---
+// ProjectCard.astro
+interface Props {
+  title: string;
+  description: string;
+  url: string;
+  date: Date;
+  image?: string; // Image illustrative du projet
+  links?: { type: "github" | "hf" | "website"; url: string }[];
+}
+
+const { title, description, url, date, image, links = [] } = Astro.props;
+
+// Formater la date si besoin
+const formattedDate = date.toLocaleDateString("fr-FR", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
+---
+<article class="article-card">
+  {image && (
+    <a href={url}>
+      <img src={image} alt={`Image du projet ${title}`} class="article-image" />
+    </a>
+  )}
+  <div class="article-content">
+    <div class="article-header">
+      <div class="title-block">
+        <h2 class="article-title">
+          <a href={url}>{title}</a>
+        </h2>
+        <time class="article-date">{formattedDate}</time>
+      </div>
+      {links.length > 0 && (
+        <div class="article-links">
+          {links.map(link => (
+            <a href={link.url} target="_blank" rel="noopener noreferrer" class="link-icon">
+              {link.type === "github" && <img src="/icons/github.png" alt="GitHub" />}
+              {link.type === "hf" && <img src="/icons/hf.svg" alt="Hugging Face" />}
+              {link.type === "website" && <img src="/icons/website.png" alt="Website" />}
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+    <p class="article-description">{description}</p>
+  </div>
+</article>
+
+<style>
+.article-card {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  align-items: flex-start;
+
+  border: 1px solid var(--border-color, #ccc);
+  border-radius: 12px;
+  padding: 1rem;
+  background-color: var(--card-bg, #1f1f1f);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.article-image {
+  width: 200px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.article-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.article-header {
+  display: flex;
+  justify-content: space-between; /* titre à gauche, logos à droite */
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.title-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.article-title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.article-date {
+  font-size: 0.875rem;
+  color: var(--muted-text, #888);
+}
+
+.article-description {
+  margin: 0.5rem 0;
+}
+
+.article-links a {
+  text-decoration: none; /* supprime le soulignement */
+  display: inline-flex;
+  padding: 4px;
+  border-radius: 50%;
+  background-color: white;
+  transition: transform 0.2s ease; /* animation fluide */
+}
+
+.article-links a:hover {
+  transform: scale(1.2); /* agrandit légèrement au survol */
+}
+
+.link-icon {
+  display: inline-flex;
+  padding: 4px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.link-icon img {
+  width: 24px;
+  height: 24px;
+}
+</style>

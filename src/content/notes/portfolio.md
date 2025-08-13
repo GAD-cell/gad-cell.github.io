@@ -1,9 +1,15 @@
 ---
-title: "Git Workflow Best Practices"
-description: "Essential git commands and workflows for efficient development"
-publishedAt: 2024-01-10
-category: "Development"
+title: "Portfolio website"
+description: "Quelques astuces CSS"
+publishedAt: 2025-08-13
+category: "Web"
+draft: false
+image: "/images/schools/polimi.png"
+links:
+  - type: "github"
+    url: "https://github.com/GAD-cell/gad-cell.github.io"
 ---
+
 
 Quick reference for common git workflows:
 

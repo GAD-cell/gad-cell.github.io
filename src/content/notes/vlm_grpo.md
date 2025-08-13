@@ -1,9 +1,16 @@
 ---
-title: "Modern CSS Tricks"
-description: "Useful CSS snippets and modern techniques"
-publishedAt: 2024-01-05
-category: "CSS"
+title: "VLM GRPO"
+description: "Quelques astuces CSS"
+publishedAt: 2025-08-13
+category: "Web"
+draft: false
+image: "/images/schools/polimi.png"
+links:
+  - type: "github"
+    url: "https://github.com/GAD-cell/vlm-grpo"
+
 ---
+
 
 Some modern CSS tricks I use frequently:
 

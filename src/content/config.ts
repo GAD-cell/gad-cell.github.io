@@ -90,17 +90,22 @@ const site = defineCollection({
 });
 
 const notes = defineCollection({
-    loader: glob({
-        pattern: "**/*.md",
-        base: "./src/content/notes"
-    }),
-    schema: z.object({
-        title: z.string(),
-        description: z.string(),
-        publishedAt: z.coerce.date(),
-        category: z.string(),
-        draft: z.boolean().optional().default(false),
-    })
+  loader: glob({
+    pattern: "**/*.md",
+    base: "./src/content/notes"
+  }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    publishedAt: z.coerce.date(),
+    category: z.string(),
+    draft: z.boolean().optional().default(false),
+    image: z.string().optional(), // URL de l’image illustrative
+    links: z.array(z.object({
+      type: z.enum(["github", "hf", "website"]), // ou autres types
+      url: z.string().url()
+    })).optional()
+  })
 });
 
 const bookmarks = defineCollection({
