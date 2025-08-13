@@ -30,7 +30,6 @@ const formattedDate = date.toLocaleDateString("fr-FR", {
         <h2 class="article-title">
           <a href={url}>{title}</a>
         </h2>
-        <time class="article-date">{formattedDate}</time>
       </div>
       {links.length > 0 && (
         <div class="article-links">
@@ -101,17 +100,32 @@ const formattedDate = date.toLocaleDateString("fr-FR", {
   margin: 0.5rem 0;
 }
 
+.article-links a,
+.article-links a:link,
+.article-links a:visited,
+.article-links a:hover,
+.article-links a:focus,
+.article-links a:active {
+  text-decoration: none !important; /* force l’absence de soulignement */
+  outline: none; /* optionnel, pour éviter le contour bleu sur clic */
+}
+.article-links {
+  display: flex;
+  gap: 0.5rem; /* écart entre les icônes */
+}
+
 .article-links a {
-  text-decoration: none; /* supprime le soulignement */
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 4px;
   border-radius: 50%;
   background-color: white;
-  transition: transform 0.2s ease; /* animation fluide */
+  transition: transform 0.2s ease;
 }
 
 .article-links a:hover {
-  transform: scale(1.2); /* agrandit légèrement au survol */
+  transform: scale(1.2);
 }
 
 .link-icon {
