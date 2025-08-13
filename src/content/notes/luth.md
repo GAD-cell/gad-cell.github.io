@@ -1,10 +1,10 @@
 ---
 title: "Luth"
-description: "Quelques astuces CSS"
-publishedAt: 2025-08-13
+description: "Luth: Efficient French Specialization for Small Language Models"
+publishedAt: 2025-08-15
 category: "Web"
 draft: false
-image: "/images/schools/polimi.png"
+image: "/images/projects/luth.png"
 links:
   - type: "github"
     url: "https://github.com/kurakurai/Luth"

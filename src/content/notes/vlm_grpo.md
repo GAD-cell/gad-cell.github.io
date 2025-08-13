@@ -1,10 +1,10 @@
 ---
 title: "VLM GRPO"
-description: "Quelques astuces CSS"
-publishedAt: 2025-08-13
+description: "An implementation of GRPO for VLMs training, compatible with unsloth."
+publishedAt: 2025-08-12
 category: "Web"
 draft: false
-image: "/images/schools/polimi.png"
+image: "/images/projects/vlm_grpo.png"
 links:
   - type: "github"
     url: "https://github.com/GAD-cell/vlm-grpo"

@@ -1,10 +1,10 @@
 ---
 title: "Muon clip"
-description: "Quelques astuces CSS"
-publishedAt: 2025-08-13
+description: "An implementation of the Muon optimizer featuring the latest research improvements"
+publishedAt: 2025-08-14
 category: "Web"
 draft: false
-image: "/images/schools/polimi.png"
+image: "/images/projects/muon_clip.png"
 links:
   - type: "github"
     url: "https://github.com/GAD-cell/muon-clip"

@@ -29,6 +29,10 @@
       {
         "platform": "LinkedIn",
         "url": "https://www.linkedin.com/in/sinou%C3%A9-gad-98b7b324b/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+      },
+      {
+        "platform": "HuggingFace",
+        "url": "https://huggingface.co/GAD-cell"
       }
     ]
   }

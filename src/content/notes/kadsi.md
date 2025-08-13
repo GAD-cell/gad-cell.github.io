@@ -1,13 +1,13 @@
 ---
-title: "Portfolio website"
-description: "A portfolio website made with Astro JS"
-publishedAt: 2025-08-11
+title: "KADSI"
+description: "KADSI: Knowledge and AI for Dermatology and Skin Inclusion. Our solution for the 2025 edition of the D4GEN hackaton. Awarded 3rd place."
+publishedAt: 2025-08-12
 category: "Web"
 draft: false
-image: "/images/projects/portfolio.png"
+image: "/images/projects/kadsi.png"
 links:
   - type: "github"
-    url: "https://github.com/GAD-cell/gad-cell.github.io"
+    url: "https://github.com/GAD-cell/KADSI"
 ---
 
 

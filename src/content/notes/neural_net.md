@@ -1,13 +1,13 @@
 ---
-title: "Portfolio website"
-description: "A portfolio website made with Astro JS"
-publishedAt: 2025-08-11
+title: "Neural-net"
+description: "A flexible MLP implementation from scratch with numpy"
+publishedAt: 2022-08-15
 category: "Web"
 draft: false
-image: "/images/projects/portfolio.png"
+image: "/images/projects/neural_net.png"
 links:
   - type: "github"
-    url: "https://github.com/GAD-cell/gad-cell.github.io"
+    url: "https://github.com/GAD-cell/neural-net"
 ---
 
 
