@@ -1,0 +1,296 @@
+---
+import BaseLayout from "../../components/layout/BaseLayout.astro";
+import Categories from "../../components/shared/Categories.astro";
+import ArticleCard from "../../components/ui/ArticleCard.astro";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import BaseHero from "../../components/shared/BaseHero.astro";
+import Container from "../../components/ui/Container.astro";
+import ContentList from "../../components/shared/ContentList.astro";
+type Bookmark = CollectionEntry<"experience">;
+import { getCollection, getEntry } from "astro:content";
+
+const bookmarks = await getCollection("bookmarks");
+const types = [...new Set(bookmarks.map((bookmark: Bookmark) => bookmark.data.type))];
+const sortedBookmarks = bookmarks.sort(
+  (a: Bookmark, b: Bookmark) => b.data.createdAt.getTime() - a.data.createdAt.getTime()
+);
+
+const siteConfig = await getEntry("site", "home");
+if (!siteConfig) {
+  throw new Error("Site configuration not found");
+}
+
+const site = siteConfig.data;
+
+const education = await getCollection("education");
+const sortedEducation = education.sort(
+  (a: CollectionEntry<"education">, b: CollectionEntry<"education">) =>
+    b.data.startDate.getTime() - a.data.startDate.getTime()
+);
+
+const experiences = await getCollection("experience");
+const sortedExperiences = experiences.sort(
+  (a: CollectionEntry<"experience">, b: CollectionEntry<"experience">) =>
+    b.data.startDate.getTime() - a.data.startDate.getTime()
+);
+
+const formatDate1 = (date: Date | undefined) => {
+  if (!date) return "";
+  return date.toLocaleDateString("en-US", {
+    month: "short", // "Jan", "Feb"...
+    year: "numeric" // 2025
+  });
+};
+
+const formatDate2 = (date: Date | undefined) => {
+  if (!date) return "";
+  return date.toLocaleDateString("en-US", {
+    year: "numeric" // 2025
+  });
+};
+
+const title = "About Me"
+const description = "I'm Sinoué, a machine learning student. I'm sudying at the Data science Master hosted by Ecole Polytechnique. I've also finished a master of engineering at Télécom SudParis."
+---
+
+<BaseLayout title="About Me" description="I'm Sinoué, a machine learning student. I'm sudying at the Data science Master hosted by Ecole Polytechnique. I've also finished a master of engineering at Télécom SudParis.">
+  <Container>
+    <section class="base-hero">
+    <h1 class="hero-title">{title}</h1>
+    <p class="hero-description">{description}</p>
+    </section>
+
+    <a href="/CV_GAD.pdf" download class="cv-button">Download resume</a>
+    <section class="section">
+      <div class="section-header">
+        <h2>{site.sections.experience.title}</h2>
+      </div>
+      <div class="content-list">
+        {
+          sortedExperiences.slice(0, 2).map((exp) => (
+          <article>
+            <div class="company-info-wrapper">
+              <img src={exp.data.logo} alt="" class="company-logo" />
+              <div class="company-text">
+                <span class="company-title">{exp.data.title}</span>
+                <p class="muted-text">{exp.data.description}</p>
+              </div>
+              <time class="company-time">
+                {formatDate1(exp.data.startDate)} - {exp.data.current ? "Present" : formatDate1(exp.data.endDate)}
+              </time>
+            </div>
+          </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>{site.sections.education.title}</h2>
+      </div>
+      <div class="content-list">
+        {
+          sortedEducation.slice(0, 3).map((edu) => (
+          <article>
+            <div class="company-info-wrapper">
+              <img src={edu.data.logo} alt="" class="school-logo" />
+              <div class="company-text">
+                <span class="company-title">{edu.data.title}</span>
+                <p class="muted-text">{edu.data.description}</p>
+              </div>
+              <time class="company-time">
+                {formatDate2(edu.data.startDate)} - {edu.data.current ? "Present" : formatDate2(edu.data.endDate)}
+              </time>
+            </div>
+          </article>
+          ))
+        }
+      </div>
+    </section>
+  </Container>
+</BaseLayout>
+
+<style>
+  main {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 2rem 0;
+  }
+
+  .content-list article {
+  margin-bottom: 2rem; /* augmente l'espace entre les articles */
+  }
+
+  .company-time {
+    margin-left: auto;
+    white-space: nowrap;
+    font-size: 0.875rem;
+    opacity: 0.7;
+  }
+  .company-info-wrapper {
+    display: flex;
+    align-items: flex-start; /* aligne le logo avec le texte en haut */
+    gap: 0.75rem;
+  }
+
+  .school-logo {
+    width: 3rem; /* taille du logo */
+    height: 3rem;
+    object-fit: contain;
+  }
+
+  .company-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .company-title {
+     font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .muted-text {
+    font-size: 0.875rem;
+    opacity: 0.7;
+  }
+  .cv-button {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    border: 2px solid var(--color-primary);
+    border-radius: 0.5rem;
+    background-color: transparent;
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-align: center;
+    text-decoration: none !important; /* force l’absence de soulignement */
+    transition: all 0.3s ease;
+  }
+
+  .cv-button:hover {
+    background-color: var(--color-primary);
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    text-decoration: none !important; /* force aussi au hover */
+  }
+
+  .profile-photo {
+    display: block;
+    margin: 0 auto 1.5rem auto; /* centrer et espace en dessous */
+    width: 200px;              /* taille plus petite */
+    height: 200px;             /* même hauteur que largeur pour garder un cercle */
+    object-fit: cover;         /* crop pour bien remplir le rond */
+    border-radius: 50%;        /* cercle parfait */
+    border: 2px solid var(--color-primary); /* bordure optionnelle */
+  }
+  .hero h1,
+  .hero .subtitle,
+  .hero .introduction {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .introduction {
+    margin: 1.5rem 0;
+    opacity: 0.9;
+  }
+
+  .section {
+    margin: 4rem 0;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2rem;
+    opacity: 0.7;
+  }
+
+  .title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    font-size: var(--text-sm);
+  }
+
+  .company-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .company-logo {
+    width: 4rem;
+    height: 4rem;
+    object-fit: contain;
+  }
+
+  .school-logo {
+    width: 4rem;
+    height: 4rem;
+    background-color: white; /* ou la couleur du thème */
+    padding: 0.1rem; /* pour ne pas cropper trop près */
+    object-fit: contain; /* garde les proportions sans zoomer */
+  }
+
+
+  .hero-title {
+    font-size: 3rem; /* titre plus grand */
+
+  }
+
+  .hero-description {
+    font-size: 1rem; /* description plus grande */
+    max-width: 700px;
+    margin: 15 auto;
+    text-align: justify;
+  }
+
+  time {
+    font-size: var(--text-xs);
+    opacity: 0.5;
+    white-space: nowrap;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .tags span {
+    font-size: var(--text-xs);
+    opacity: 0.5;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    opacity: 0.7;
+    justify-content: center;
+  }
+
+
+
+  @media (max-width: 640px) {
+    main {
+      padding: 1rem 0;
+    }
+
+    .hero {
+      padding: 3rem 0;
+    }
+
+    .container {
+      padding: 0 1rem;
+    }
+  }
+</style>

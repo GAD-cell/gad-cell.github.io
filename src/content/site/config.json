@@ -1,0 +1,35 @@
+{
+  "home": {
+    "name": "Sinoué GAD",
+    "title": "Machine Learning Student",
+    "introduction": "",
+    "sections": {
+      "blog": {
+        "title": "Writing",
+        "viewAllText": "View all posts"
+      },
+      "projects": {
+        "title": "Projects",
+        "viewAllText": "View all projects"
+      },
+      "experience": {
+        "title": "Experience",
+        "viewAllText": "View full résumé"
+      },
+      "education": {
+        "title": "Education",
+        "viewAllText": "View full résumé"
+      }      
+    },
+    "socialLinks": [
+      {
+        "platform": "GitHub",
+        "url": "https://github.com/GAD-cell"
+      },
+      {
+        "platform": "LinkedIn",
+        "url": "https://www.linkedin.com/in/sinou%C3%A9-gad-98b7b324b/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+      }
+    ]
+  }
+}
