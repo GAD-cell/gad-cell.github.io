@@ -20,15 +20,13 @@ const formattedDate = date.toLocaleDateString("fr-FR", {
 ---
 <article class="article-card">
   {image && (
-    <a href={url}>
       <img src={image} alt={`Image du projet ${title}`} class="article-image" />
-    </a>
   )}
   <div class="article-content">
     <div class="article-header">
       <div class="title-block">
         <h2 class="article-title">
-          <a href={url}>{title}</a>
+          {title}
         </h2>
       </div>
       {links.length > 0 && (
@@ -52,8 +50,8 @@ const formattedDate = date.toLocaleDateString("fr-FR", {
   display: flex;
   gap: 1rem;
   margin-bottom: 2rem;
-  align-items: flex-start;
-
+  align-items: flex-warp;
+  max-width: none;
   border: 1px solid var(--border-color, #ccc);
   border-radius: 12px;
   padding: 1rem;
@@ -62,7 +60,7 @@ const formattedDate = date.toLocaleDateString("fr-FR", {
 }
 
 .article-image {
-  width: 300px;
+  width: 200px;
   height: auto;
   border-radius: 8px;
   object-fit: cover;
@@ -88,7 +86,10 @@ const formattedDate = date.toLocaleDateString("fr-FR", {
 
 .article-title {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
+  font-weight: 700;       /* Titre bien affirmé */
+  letter-spacing: -0.5px; /* Compact et moderne */
+  line-height: 1.2;       /* Plus dynamique */
 }
 
 .article-date {
@@ -138,5 +139,29 @@ const formattedDate = date.toLocaleDateString("fr-FR", {
 .link-icon img {
   width: 24px;
   height: 24px;
+}
+
+
+
+@media (max-width: 640px) {
+  .article-card {
+    flex-direction: column; /* empile les éléments */
+    align-items: center;    /* centre l’image et le contenu */
+  }
+
+  .article-header {
+    flex-direction: column; /* titre et liens empilés */
+    align-items: flex-start; 
+    gap: 0.5rem;
+  }
+
+  .article-links {
+    justify-content: flex-start;
+  }
+
+  .article-image {
+    width: 100%; /* image pleine largeur */
+    height: auto;
+  }
 }
 </style>
