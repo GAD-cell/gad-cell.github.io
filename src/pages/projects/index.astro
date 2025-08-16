@@ -24,7 +24,6 @@ const sortedNotes = notes.sort(
   <Container>
     <BaseHero title="Projects" description="My latest projects" />
 
-    <Categories categories={categories} currentPath={Astro.url.pathname} basePath="notes" />
 
     <ContentList>
       {sortedNotes.map((note) => (
