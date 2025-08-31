@@ -1,6 +1,6 @@
 ---
 title: "Neural-net"
-description: "A flexible MLP implementation from scratch with numpy"
+description: "A flexible MLP implementation from scratch with numpy."
 publishedAt: 2022-08-15
 category: "Web"
 draft: false

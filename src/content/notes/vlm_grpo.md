@@ -1,6 +1,6 @@
 ---
 title: "VLM GRPO"
-description: "An implementation of GRPO for VLMs training, compatible with unsloth."
+description: "An implementation of GRPO for VLM training, compatible with Unsloth. Collaborated with the Unsloth team to integrate this implementation into their framework."
 publishedAt: 2025-08-12
 category: "Web"
 draft: false

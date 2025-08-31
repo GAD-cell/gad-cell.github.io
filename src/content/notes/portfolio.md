@@ -1,6 +1,6 @@
 ---
 title: "Portfolio website"
-description: "A portfolio website made with Astro JS"
+description: "A portfolio website made with Astro JS."
 publishedAt: 2025-08-11
 category: "Web"
 draft: false

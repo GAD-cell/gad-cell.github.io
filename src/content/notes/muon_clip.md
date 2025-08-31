@@ -1,6 +1,6 @@
 ---
 title: "Muon clip"
-description: "An implementation of the Muon optimizer featuring the latest research improvements"
+description: "Implemented the Muon optimizer in PyTorch, incorporating the latest research improvements (QK-clipping from Kimi K2, improved Newton–Schulz orthogonalization with gradient matrix eigenvalue estimation). Supports distributed training with PyTorch and DeepSpeed, optimized for scalability."
 publishedAt: 2025-08-14
 category: "Web"
 draft: false

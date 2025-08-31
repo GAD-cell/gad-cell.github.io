@@ -1,7 +1,7 @@
 ---
 title: "KADSI"
 description: "KADSI: Knowledge and AI for Dermatology and Skin Inclusion. Our solution for the 2025 edition of the D4GEN hackaton. Awarded 3rd place."
-publishedAt: 2025-08-12
+publishedAt: 2025-08-11
 category: "Web"
 draft: false
 image: "/images/projects/kadsi.png"
