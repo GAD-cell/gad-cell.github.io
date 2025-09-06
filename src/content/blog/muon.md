@@ -6,7 +6,7 @@ tags: ["javascript", "async", "generators", "streams", "performance"]
 ---
 
 <p align="center">
- <img src="/src/assets/blog_media/muon_animation.gif" alt=""  style="width: 90%; height: auto;"><br>
+ <img src="/blog_media/muon_animation.gif" alt=""  style="width: 90%; height: auto;"><br>
 </p>
 
 The Muon optimizer, introduced by Keller Jordan and collaborators in 2024, represents a significant advancement in neural network optimization. Unlike traditional optimizers that treat all parameters equally, Muon specifically targets the hidden layers of neural networks through matrix orthogonalization. This approach has demonstrated notable improvements in training efficiency, achieving state-of-the-art performance in tasks such as CIFAR-10 speedrunning and NanoGPT training.
@@ -32,13 +32,13 @@ QK-clipping is a method proposed by Kimi K2 team.
 # Experimentation Results
 
 <p align="center">
- <img src="/src/assets/blog_media/loss_muon.png" alt=""  style="width: 90%; height: auto;"><br>
+ <img src="/blog_media/loss_muon.png" alt=""  style="width: 90%; height: auto;"><br>
   <figcaption style="font-size:14px; font-style:italic; margin-top:5px;">
   </figcaption>
 </p>
 
 <p align="center">
- <img src="/src/assets/blog_media/val_muon.png" alt=""  style="width: 90%; height: auto;"><br>
+ <img src="/blog_media/val_muon.png" alt=""  style="width: 90%; height: auto;"><br>
   <figcaption style="font-size:14px; font-style:italic; margin-top:5px;">
   </figcaption>
 </p>
@@ -163,28 +163,28 @@ Below is a visualization of how the linear layer matrix $M \in \mathbb{R}^{3 \ti
 <div align="center" style="border: 2px solid #333; padding: 10px; display: inline-block;">
 
   <figure style="margin: 20px 0;">
-    <img src="/src/assets/blog_media/f1.png" alt="" style="width:90%; height:auto;">
+    <img src="/blog_media/f1.png" alt="" style="width:90%; height:auto;">
       <figcaption style="font-size:14px; font-style:italic; margin-top:5px;">
     Case 1
   </figcaption>
   </figure>
 
   <figure style="margin: 20px 0;">
-    <img src="/src/assets/blog_media/f2.png" alt="" style="width:90%; height:auto;">
+    <img src="/blog_media/f2.png" alt="" style="width:90%; height:auto;">
   <figcaption style="font-size:14px; font-style:italic; margin-top:5px;">
     Case 2
   </figcaption>
   </figure>
 
   <figure style="margin: 20px 0;">
-    <img src="/src/assets/blog_media/f3.png" alt="" style="width:90%; height:auto;">
+    <img src="/blog_media/f3.png" alt="" style="width:90%; height:auto;">
   <figcaption style="font-size:14px; font-style:italic; margin-top:5px;">
     Case 3
   </figcaption>
   </figure>
 
   <figure style="margin: 20px 0;">
-    <img src="/src/assets/blog_media/f4.png" alt="" style="width:90%; height:auto;">
+    <img src="/blog_media/f4.png" alt="" style="width:90%; height:auto;">
   <figcaption style="font-size:14px; font-style:italic; margin-top:5px;">
     Case 4
   </figcaption>
@@ -204,7 +204,7 @@ $$
 
 Below is a representation of the $\Delta_{exploration}^T$ through the steps for all 4 cases (higher values means more exploration):
 <p align="center">
- <img src="/src/assets/blog_media/cumulative_delta_angles_all.png" alt=""  style="width: 90%; height: auto;"><br>
+ <img src="/blog_media/cumulative_delta_angles_all.png" alt=""  style="width: 90%; height: auto;"><br>
 </p>
 
 ## Discussion of Results
