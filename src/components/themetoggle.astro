@@ -1,0 +1,32 @@
+---
+---
+<button id="theme-toggle" style="padding:0.5rem 1rem; border-radius:0.5rem; border:none; cursor:pointer;">
+  🌙
+</button>
+
+<script type="module">
+  const button = document.getElementById('theme-toggle');
+
+  // Appliquer un thème donné et mettre à jour l'icône
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    button.textContent = theme === 'dark' ? '🌙' : '☀️';
+  }
+
+  // Initialisation : récupérer le thème stocké ou utiliser dark par défaut
+  const storedTheme = localStorage.getItem('theme') || 'dark';
+  applyTheme(storedTheme);
+
+  // Clic sur le bouton pour basculer le thème
+  button.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+  });
+
+  // Pour ClientRouter : réappliquer le thème après chaque navigation client
+  document.addEventListener('astro:after-swap', () => {
+    const storedTheme = localStorage.getItem('theme') || 'dark';
+    applyTheme(storedTheme);
+  });
+</script>

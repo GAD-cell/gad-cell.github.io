@@ -14,6 +14,7 @@ import interMediumWoff2 from "@fontsource/inter/files/inter-latin-500-normal.wof
 import robotoMonoRegularWoff2 from "@fontsource/roboto-mono/files/roboto-mono-latin-400-normal.woff2?url";
 import { ClientRouter } from "astro:transitions";
 import Navigation from "../shared/Navigation.astro";
+import ThemeToggle from '../themetoggle.astro';
 
 interface Props {
   title: string;
@@ -56,6 +57,7 @@ const { title, description, image = "/default-og-image.jpg", canonicalURL = Astr
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <ClientRouter />
+
     <script is:inline>
       // Always use dark theme
       document.documentElement.setAttribute("data-theme", "dark");
