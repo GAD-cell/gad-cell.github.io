@@ -1,5 +1,5 @@
 ---
-title: "Muon optimizer: orthgonalization strategies, qk-clipping, and explainability."
+title: "Muon optimizer: qk-clipping, orthogonalization strategies, and behavorial insights."
 description: "An implementation of the muon optimizer featuring the latest research advancements and some insights towards explainability."
 publishedAt: 2025-09-12
 tags: ["javascript", "async", "generators", "streams", "performance"]
@@ -25,28 +25,85 @@ The motivation for this work is to explore the latest advances in neural network
 By developing [Muon-clip](https://github.com/GAD-cell/muon-clip), this work aims to enable reproducible experiments, offer insights into the inner workings of Muon, and make it easier to integrate Muon’s strategies into a variety of models.
 
 # QK-clipping 
-QK-clipping is a method proposed by Kimi K2 team.
-
-#  NS vs CANS orthogonalization 
-
-# Experimentation Results
-
+QK-clipping is a method proposed by Kimi K2 team. It was proposed to avoid a common issue: attention logits explosion during training.
+(il faudrait faire un test avec adam)
 <p align="center">
- <img src="/blog_media/loss_muon.png" alt=""  style="width: 90%; height: auto;"><br>
+ <img src="/blog_media/no-clip.png" alt=""  style="width: 90%; height: auto;"><br>
   <figcaption style="font-size:14px; font-style:italic; margin-top:5px;">
   </figcaption>
 </p>
 
 <p align="center">
- <img src="/blog_media/val_muon.png" alt=""  style="width: 90%; height: auto;"><br>
+ <img src="/blog_media/muon-clip.png" alt=""  style="width: 90%; height: auto;"><br>
   <figcaption style="font-size:14px; font-style:italic; margin-top:5px;">
   </figcaption>
 </p>
 
-# Explainability: Understanding Muon Compared to Other Stochastic Optimizers
 
-Gaining an intuition for what **Muon** brings compared to other stochastic optimizers, such as **Adam**, can be challenging. This section aims to provide some explainability by visualizing how Muon behaves differently and what makes it a more exploratory optimizer.  
-The code used for this part is available on GitHub: [Explainable Muon](https://github.com/GAD-cell/explainable-muon).
+# Orthogonalization Strategies
+This section explores different strategies to perform **orthogonalization** of matrices.
+
+---
+
+## Singular Value Decomposition (SVD)
+
+For any real matrix  
+$$
+M \in \mathbb{R}^{m \times n},
+$$
+there exists a factorization called the **Singular Value Decomposition (SVD):**  
+
+$$
+M = U S V^{\top},
+$$
+
+where:  
+
+- $U \in \mathbb{R}^{m \times m}$ is an orthogonal matrix,  
+- $V \in \mathbb{R}^{n \times n}$ is an orthogonal matrix,  
+- $S \in \mathbb{R}^{m \times n}$ is a diagonal matrix containing the singular values.  
+
+The **nearest orthogonal matrix** (in Frobenius norm) to $M$ is given by:  
+
+$$
+O = U V^{\top}.
+$$
+
+This method is highly accurate, since it directly provides the best orthogonal approximation. However, computing the SVD is computationally expensive (complexity $\mathcal{O}(\min(mn^2, m^2n))$), which makes it less practical for scenarios such as training deep neural networks, where repeated orthogonalization is required.
+
+---
+
+## Newton–Schulz (NS) Orthogonalization
+
+An alternative approach to orthogonalization is the **Newton–Schulz iteration**, which computes an approximation to the matrix inverse square root.  
+
+Given a matrix $M$, the goal is to project it onto the nearest orthogonal matrix. Define the normalized version:
+
+$$
+X_0 = \frac{M}{\|M\|_{F}}.
+$$
+
+The Newton–Schulz iteration is then applied as:
+
+$$
+X_{k+1} = 2X_{k}-1.5X_{k}^3+0.5X_{k}^5,
+$$
+
+which converges quadratically to the nearest orthogonal matrix.  
+
+
+---
+
+## Chebyshev-Accelerated Newton–Schulz (CANS) Orthogonalization
+ 
+
+---
+
+
+# Behavorial insights: Understanding Muon Compared to Other Stochastic Optimizers
+
+Gaining an intuition for what **Muon** brings compared to other stochastic optimizers, such as **Adam**, can be challenging. This section aims to provide some behavorial insights by visualizing how Muon behaves differently and what makes it a more exploratory optimizer.  
+The code used for this part is available on GitHub: [Understanding Muon](https://github.com/GAD-cell/explainable-muon).
 
 ---
 
@@ -133,7 +190,7 @@ These correspond to increasingly **nonlinear, mis-specified/ poorly conditioned*
 
 ## Results
 
-| Model         | Adam validation loss    | Muon validation loss | $\Delta_{loss}$ |
+| Model         | Adam test loss    | Muon test loss | $\Delta_{loss}$ |
 |---------------|-------------------------|-----------------------|-----------------|
 | $f_{\theta_1}$   | 1.56 | 1.56 | 0.0  |
 | $f_{\theta_2}$   | 1.19 | 1.14 | 0.05 |
@@ -222,6 +279,30 @@ The visualizations highlight a clear difference in the exploration behavior of A
 	3.	Implications
 	•	The higher exploration of Muon could help avoid premature convergence and improve generalization by encouraging the optimizer to sample a broader range of solutions.
 	•	Adam’s more conservative trajectory might be advantageous in smooth, well-conditioned settings, but it risks stagnation when the landscape is complex or highly anisotropic.
+
+
+# Experimentation Results
+
+<p align="center">
+ <img src="/blog_media/loss_muon.png" alt=""  style="width: 90%; height: auto;"><br>
+  <figcaption style="font-size:14px; font-style:italic; margin-top:5px;">
+  </figcaption>
+</p>
+
+<p align="center">
+ <img src="/blog_media/val_muon.png" alt=""  style="width: 90%; height: auto;"><br>
+  <figcaption style="font-size:14px; font-style:italic; margin-top:5px;">
+  </figcaption>
+</p>
+
+
+
+| Model         | Muon NS test loss    | Muon CANS test loss | 
+|---------------|-------------------------|-----------------------|
+| $f_{\theta_1}$   | 1.56 | 1.52| 
+| $f_{\theta_2}$   | 1.14 | 1.32 | 
+| $f_{\theta_3}$   | 0.66 | 0.95 | 
+| $f_{\theta_4}$   | 0.89 | 0.84 | 
 # Conclusion
 
 # References
@@ -230,8 +311,6 @@ The visualizations highlight a clear difference in the exploration behavior of A
 2. Ekaterina Grishina, Matvey Smirnov, Maxim Rakhuba."Accelerating Newton-Schulz Iteration for Orthogonalization via Chebyshev-type Polynomials". arXiv preprint arXiv:2506.10935 (2025)
 3. Kimi team."KIMI K2: OPEN AGENTIC INTELLIGENCE". arXiv preprint arXiv:2507.20534v1 (2025)
 4. Jingyuan Liu et al. "MUON IS SCALABLE FOR LLM TRAINING". arXiv preprint arXiv:2502.16982 (2025)
-5. [Adam: A Method for Stochastic Optimization](https://arxiv.org/abs/1412.6980), Kingma & Ba, 2015.  
-6. [Muon: Orthogonalizing Momentum for Optimization in Deep Learning](https://arxiv.org/abs/2405.21060), Jordan et al., 2024.  
 
 # Citation
 
