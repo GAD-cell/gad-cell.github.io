@@ -1,7 +1,7 @@
 ---
 title: "Muon optimizer: qk-clipping, orthogonalization strategies, and behavorial insights."
 description: "An implementation of the muon optimizer featuring the latest research advancements and some insights towards explainability."
-publishedAt: 2025-09-12
+publishedAt: 2025-09-14
 tags: ["javascript", "async", "generators", "streams", "performance"]
 ---
 
