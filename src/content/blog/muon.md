@@ -122,13 +122,13 @@ $$
 
 where each $P_i(x, y, z)$ is a degree-2, 3-dimensional polynomial. Choosing three input and output dimensions allows us to easily visualize the model’s vector outputs in 3D.
 
-We define our model as $f_\theta:[0,1]^{3}\rightarrow\mathbb{R}^{3}$, with $\theta \in \mathbb{R}^9$, and aim to solve:  
+We define our model as $f_\theta:[0,1]^{3}\rightarrow\mathbb{R}^{3}$, with $\theta \in \mathbb{R}^{n},n\in\{9,12\}$, and aim to solve:  
 $$
-\min_{\theta \in \mathbb{R}^9} \mathcal{L}(f_\theta, f),
+\min_{\theta \in \mathbb{R}^n} \mathcal{L}(f_\theta, f),
 $$
 where $\mathcal{L}$ is the quadratic loss.
 
-Concretely, the model consists of a linear layer and a ReLU activation function (the ReLU nonlinearity is added to better mimic conditions of neural network training, even though the underlying target is polynomial). Our goal is to optimize this model for the problem above.
+Concretely, the model consists of a linear layer (with or without bias i.e, n=9 or n=12) and a ReLU activation function (the ReLU nonlinearity is added to better mimic conditions of neural network training, even though the underlying target is polynomial). Our goal is to optimize this model for the problem above.
 
 ---
 
@@ -144,7 +144,7 @@ P_{1_\theta}(x, y, z) \\
 P_{2_\theta}(x, y, z) \\
 P_{3_\theta}(x, y, z)
 \end{pmatrix},
-\quad \theta \in \mathbb{R}^{21}.
+\quad \theta \in \mathbb{R}^{24}.
 $$  
 
 Here, the model directly learns the features of the three polynomials (i.e., the monomials of degree ≤ 2).  
@@ -156,7 +156,7 @@ But the objective in this section is different: we intentionally place ourselves
 ## Hypothesis: Why Muon Helps
 
 **Hypothesis regarding Muon:**  
-When the network is **under-parameterized**/**mis-specified** (as is almost always the case in non-convex deep learning tasks[^1]) and/or **poorly conditioned** (regions of the parameter space where gradient propagation is weak or highly anisotropic[^2]), Muon can retain **exploration capacity**, while Adam and other stochastic optimizers are constrained to explore only the directions that are analytically “easy” to access.  
+When the network is **under-parameterized**/**mis-specified** (as is almost always the case in non-convex deep learning tasks[^1]) and/or **poorly conditioned** (i.e regions of the parameter space where gradient propagation is weak or highly anisotropic[^2]), Muon can retain **exploration capacity**, while Adam and other stochastic optimizers are constrained to explore only the directions that are analytically “easy” to access.  
 
 In other words:
 - Adam and standard optimizers tend to align updates with dominant gradient directions, which in ill-conditioned networks means ignoring “rare” but important directions【Jordan et al., 2024】[^3].  
@@ -181,7 +181,7 @@ $$f_{\theta_3}(X) = \mathrm{ReLU}(\mathrm{linear}_1(\mathrm{ReLU}(\mathrm{linear
 **Case 4**  
 $$f_{\theta_4}(X) = \mathrm{ReLU}(\mathrm{linear}_1(\mathrm{ReLU}(\mathrm{linear}_1(X)))) \quad (\text{bias} = \text{False})$$  
 
-These correspond to increasingly **nonlinear, mis-specified/ poorly conditioned** models for the problem:
+These correspond to increasingly **mis-specified/ poorly conditioned** models for the problem:
 - Case (1) is essentially linear and well-conditioned, but mis-specified.  
 - Cases (2) and (3) introduce ReLU nonlinearities, which not only create asymmetric gradient propagation but also truncate half of the input space (since negative polynomial values are mapped to zero). This deliberate loss of information increases the anisotropy of the optimization landscape, making the problem more poorly conditioned.  
 - Case (4) removes biases, further reducing flexibility and worsening conditioning.  
