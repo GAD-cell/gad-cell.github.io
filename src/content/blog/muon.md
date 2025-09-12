@@ -1,6 +1,6 @@
 ---
 title: "Muon optimizer: qk-clipping, orthogonalization strategies, and behavorial insights."
-description: "An implementation of the muon optimizer featuring the latest research advancements and some insights towards explainability."
+description: "An implementation of the muon optimizer featuring the latest research advancements and some insights towards behavorial insights."
 publishedAt: 2025-09-14
 tags: ["javascript", "async", "generators", "streams", "performance"]
 ---
@@ -75,30 +75,104 @@ This method is highly accurate, since it directly provides the best orthogonal a
 
 ## Newton–Schulz (NS) Orthogonalization
 
-An alternative approach to orthogonalization is the **Newton–Schulz iteration**, which computes an approximation to the matrix inverse square root.  
+A widely used approach to matrix orthogonalization is the **Newton–Schulz (NS) iteration**, which iteratively refines an input matrix toward its nearest orthogonal factor.
 
-Given a matrix $M$, the goal is to project it onto the nearest orthogonal matrix. Define the normalized version:
-
-$$
-X_0 = \frac{M}{\|M\|_{F}}.
-$$
-
-The Newton–Schulz iteration is then applied as:
+Given a matrix \(M\), we first normalize it to control the spectral radius:
 
 $$
-X_{k+1} = 2X_{k}-1.5X_{k}^3+0.5X_{k}^5,
+X_0 = \frac{M}{\|M\|_F}.
 $$
 
-which converges quadratically to the nearest orthogonal matrix.  
+The iterative update takes the form:
 
+$$
+X_{k+1} = cX_k - bX_k^3 + aX_k^5,
+$$
+
+where the coefficients \((a, b, c)\) determine both convergence and stability.  
+With properly chosen coefficients, the iteration converges quadratically to the orthogonal polar factor of \(M\).
+
+- **Baseline coefficients:**  
+
+$$
+(a, b, c) = (2,\,-1.5,\,0.5),
+$$  
+
+corresponding to the classical 5th-order NS scheme.
+
+- **Muon-optimized coefficients:**  
+
+$$
+(a, b, c) = (2.0315,\,-4.7750,\,3.445),
+$$  
+
+which were empirically tuned in the Muon optimizer.  
+These yield a higher derivative at 0, accelerating the convergence of small singular values.  
+
+In practice, the original Muon implementation applies **5 iterations**, which is sufficient to obtain an accurate approximation of the orthogonal matrix for deep learning applications.
+**For more details, see [Keller's blog post](https://kellerjordan.github.io/posts/muon/)**.
 
 ---
 
-## Chebyshev-Accelerated Newton–Schulz (CANS) Orthogonalization
- 
+## Chebyshev-Accelerated Newton–Schulz (CANS) Iteration
 
+### Overview
+The classical Newton–Schulz (NS) iteration is widely used for matrix orthogonalization because it relies only on matrix multiplications, making it efficient on modern hardware. However, its convergence speed is limited because the iteration coefficients are fixed and not adapted to the singular value distribution of the input matrix.
+
+To address this, a **Chebyshev-accelerated Newton–Schulz (CANS)** method has been proposed ([Ekaterina Grishina](https://arxiv.org/abs/2506.10935)). It leverages **Chebyshev-type polynomials** and the **alternance theorem** to derive *optimal coefficients* that adapt to the spectrum of the matrix.
+
+### Key Ideas
+- **Classical NS iteration**:  
+  Uses a fixed 5rd-order polynomial   
+  Convergence requires specific spectral conditions and can be slow when singular values are widely spread.
+
+- **CANS method**:
+  - Finds *optimal odd polynomials* that best approximate the unity function on the interval \([σ_{\min}, σ_{\max}]\), where the singular values lie.
+  - Uses explicit formulas for degree-3 polynomials and the **Remez algorithm** for higher degrees.
+  - Allows construction of **inexact orthogonalization polynomials** confined to \([1 - δ, 1 + δ]\), balancing accuracy and efficiency.
+  - Maximizes polynomial derivative near zero, which speeds convergence for small singular values.
+
+### Why CANS is More Accurate
+1. **Spectrum-adapted coefficients**  
+   Unlike classical NS with fixed coefficients, CANS tunes its polynomial coefficients to the actual singular value range, ensuring tighter error bounds.
+
+2. **Quadratic error decay**  
+   The optimized scheme achieves faster convergence, with error shrinking roughly as \(ε_{n+1} ≤ ε_n^2\).
+
+3. **Better control of approximation error**  
+   CANS allows explicit trade-offs between exact and approximate orthogonalization, which is especially useful in deep learning optimizers (e.g., Muon).
+
+4. **Higher derivatives at zero**  
+   This design improves the rate at which small singular values move toward 1, leading to quicker stabilization of the spectrum.
 ---
+### Pseudo-code (simplified)
 
+```pseudo
+Input: Matrix M, number of iterations s, polynomial degree d
+
+1. Normalize:
+   X ← M / σ_max(M)             # Estimate largest singular value σ_max(M)
+
+2. Initialize spectrum bounds:
+   [a, b] ← [σ_min_est, 1]      
+  # If σ_min is unknown, use δ-orthogonalization:
+  #   - Start from the interval [0, 2]
+  #   - Iteratively apply the Remez algorithm
+  #   - Push all singular values into [1 - δ, 1 + δ]
+  # [a, b] ← [1 - δ, 1 + δ]   
+
+3. For i = 1 to s do:
+      - Compute Chebyshev-optimal polynomial p_d,a,b(x)
+        that best approximates 1 on [a, b] with remez algorithm
+      - Update matrix:
+        X ← p_d,a,b(X)
+      - Update bounds:
+        [a, b] ← [1 - ε, 1 + ε]   # ε = approximation error of polynomial
+
+4. Return X  # Approximated orthogonal factor
+```
+**For details on the evaluation of orthogonalization strategies, 
+please refer to the experimental results section.**
 
 # Behavorial insights: Understanding Muon Compared to Other Stochastic Optimizers
 
@@ -168,7 +242,7 @@ In other words:
 ## Experimental Setup
 
 To test this idea, we compare performance under increasing levels of conditioning difficulty. Specifically, we test the following networks:
-
+(calculer le condition number lambda max / lambda min)
 **Case 1**  
 $$f_{\theta_1}(X) = \mathrm{linear}_1(\mathrm{linear}_1(X))$$  
 
@@ -283,6 +357,8 @@ The visualizations highlight a clear difference in the exploration behavior of A
 
 # Experimentation Results
 
+The test belows were realised with [Le Carnet](https://github.com/MaxLSB/le-carnet)
+
 <p align="center">
  <img src="/blog_media/loss_muon.png" alt=""  style="width: 90%; height: auto;"><br>
   <figcaption style="font-size:14px; font-style:italic; margin-top:5px;">
@@ -316,9 +392,9 @@ The visualizations highlight a clear difference in the exploration behavior of A
 
 ```bibtex
 @misc{sinoue2025muon,
-  title   = {Muon optimizer: Orthgonalization strategies, qk-clipping, and explainability.},
+  title   = {Muon optimizer: qk-clipping, orthogonalization strategies, and behavorial insights.},
   author  = {Sinoué GAD},
   year    = {2025},
   howpublished = {},
-  note    = {Muon optimizer: Orthgonalization strategies, qk-clipping, and explainability.}
+  note    = {An implementation of the muon optimizer featuring the latest research advancements and some insights towards behavorial insights.}
 }
