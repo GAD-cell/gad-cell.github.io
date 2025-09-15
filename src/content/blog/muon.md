@@ -22,7 +22,7 @@ Furthermore, Muon’s design allows for efficient scaling to large models. Recen
 # Motivation
 The motivation for this work is to explore the latest advances in neural network optimization and provide a practical, up-to-date implementation of the muon optimizer that incorporates these developments.
 
-By developing [muon-clip](https://github.com/GAD-cell/muon-clip), an open source implementation of the muon optimizer featuring the latest research advancements,s this work aims to enable reproducible experiments, offer insights into the inner workings of Muon, and make it easier to integrate Muon’s strategies into a variety of models.
+By developing [muon-clip](https://github.com/GAD-cell/muon-clip), an open source implementation of the muon optimizer featuring the latest research advancements, this work aims to enable reproducible experiments, offer insights into the inner workings of Muon, and make it easier to integrate Muon’s strategies into a variety of models.
 
 # QK-clipping 
 QK-Clipping is a method proposed by the [Kimi K2 team](https://arxiv.org/html/2507.20534v1) to prevent a common issue in large language model training: **attention logits explosion**. Although this issue occurs more generally, it is especially problematic with Muon, because Muon’s updates allow the spectral norms of the query/key weight matrices to grow more freely (particularly at higher learning rates), which exacerbates the explosion of logits.
