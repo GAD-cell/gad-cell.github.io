@@ -406,6 +406,7 @@ The test belows were realised with [Le Carnet](https://github.com/MaxLSB/le-carn
 
 ## Discussion
 From the curves we observe:
+
 	•	Without clipping (noclip): training rapidly stalls, with losses plateauing at higher values for both NS and CANS. This confirms that uncontrolled logit growth destabilizes optimization.
 	•	With QK-Clipping (clip / clip-est): training becomes stable, with losses steadily decreasing. Both NS and CANS benefit from clipping, but Muon-V1 (NS) consistently achieves slightly lower losses.
 	•	Overall: QK-Clipping proves to be essential for stable convergence, while NS remains the more reliable orthogonalization method compared to CANS.
@@ -422,6 +423,7 @@ To further validate these findings, we evaluated Muon with NS and CANS on the fo
 | $f_{\theta_4}$   | 0.89 | 0.84 | 
 
 The results confirm the trends observed in the plots:
+
 	•	NS (V1) generally outperforms CANS (V2), particularly in moderately conditioned settings (Cases 2 and 3).
 	•	Only in the most constrained setup (Case 4) does CANS slightly edge out NS, but overall the traditional NS method remains the more effective and consistent choice.
 
