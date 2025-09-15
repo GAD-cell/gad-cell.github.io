@@ -25,20 +25,37 @@ The motivation for this work is to explore the latest advances in neural network
 By developing [muon-clip](https://github.com/GAD-cell/muon-clip), an open source implementation of the muon optimizer featuring the latest research advancements,s this work aims to enable reproducible experiments, offer insights into the inner workings of Muon, and make it easier to integrate Muon’s strategies into a variety of models.
 
 # QK-clipping 
-QK-clipping is a method proposed by [Kimi K2 team](https://arxiv.org/html/2507.20534v1). It was proposed to avoid a common issue: attention logits explosion during training.
-(il faudrait faire un test avec adam)
+QK-Clipping is a method proposed by the [Kimi K2 team](https://arxiv.org/html/2507.20534v1) to prevent a common issue in large language model training: **attention logits explosion**. Although this issue occurs more generally, it is especially problematic with Muon, because Muon’s updates allow the spectral norms of the query/key weight matrices to grow more freely (particularly at higher learning rates), which exacerbates the explosion of logits.
+
+
 <p align="center">
- <img src="/blog_media/no-clip.png" alt=""  style="width: 90%; height: auto;"><br>
+ <img src="/blog_media/no-clip.png" alt="Attention logits without clipping" style="width: 90%; height: auto;"><br>
   <figcaption style="font-size:14px; font-style:italic; margin-top:5px;">
+  Attention logits without QK-Clipping often grow uncontrollably, causing instability during training.
   </figcaption>
 </p>
 
 <p align="center">
- <img src="/blog_media/muon-clip.png" alt=""  style="width: 90%; height: auto;"><br>
+ <img src="/blog_media/muon-clip.png" alt="Attention logits with clipping" style="width: 90%; height: auto;"><br>
   <figcaption style="font-size:14px; font-style:italic; margin-top:5px;">
+  QK-Clipping stabilizes the logits, keeping them within a manageable range.
   </figcaption>
 </p>
 
+
+During training, attention logits are computed as the dot product between **query (Q)** and **key (K)** projections.  
+If the spectral norms of these matrices grow too large, the logits can explode, saturating the softmax function and halting learning. This is especially problematic in **large-scale models**, where instability can quickly derail training.
+
+## How QK-Clipping Works
+
+QK-Clipping is an **adaptive weight clipping mechanism** applied to Q and K matrices:
+
+1. **Monitor attention logits:** During the forward pass, the maximum unnormalized logit $max\_logit$ is computed for each attention head.  
+2. **Compute scaling factor:** If this maximum exceeds a predefined threshold (e.g., τ = 100), a scaling factor $\eta$ is calculated as $\eta=min(1,\frac{threshold}{max\_logit})$ for each head.  
+3. **Rescale Q and K weights:** Both matrices are respectively multiplied by $\eta^{\alpha}$ and $\eta^{1-\alpha}$ , reducing the amplitude of the logits and stabilizing training.
+
+This method allows **logit control without changing the model architecture**, making it a lightweight yet effective stabilization technique.
+In our experiments, we also show that this technique can even improve the convergence rate of small models (see experimentations result section).
 
 # Orthogonalization Strategies
 This section explores different strategies to perform **orthogonalization** of matrices.
