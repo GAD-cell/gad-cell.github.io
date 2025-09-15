@@ -193,7 +193,7 @@ please refer to the experimental results section.**
 
 # Behavorial insights: Understanding Muon Compared to Other Stochastic Optimizers
 
-Gaining an intuition for what **Muon** brings compared to other stochastic optimizers, such as **Adam**, can be challenging. This section aims to provide some behavorial insights by visualizing how Muon behaves differently and what makes it a more exploratory optimizer.  
+Gaining an intuition for what **Muon** brings compared to other stochastic optimizers, such as **Adam**, can be challenging. This section aims to provide some behavorial insights by visualizing how Muon behaves differently and what makes it a more exploratory and robust optimizer.  
 The code used for this part is available on GitHub: [Understanding Muon](https://github.com/GAD-cell/explainable-muon).
 
 ---
