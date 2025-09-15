@@ -372,7 +372,7 @@ The visualizations highlight a clear difference in the exploration behavior of A
 	•	Adam’s more conservative trajectory might be advantageous in smooth, well-conditioned settings, but it risks stagnation when the landscape is complex or highly anisotropic.
 
 
-# Experimentation Results
+# Experimentations
 
 ## Experimental Protocol
 
