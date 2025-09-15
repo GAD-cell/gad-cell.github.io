@@ -374,21 +374,43 @@ The visualizations highlight a clear difference in the exploration behavior of A
 
 # Experimentation Results
 
+## Experimental Protocol
+
+The experiments were designed with two main objectives:
+	1.	Verify the relevance of QK-Clipping as a stabilization technique when training with Muon.
+	2.	Compare orthogonalization strategies within Muon: the classical Newton–Schulz (NS, Muon-V1) versus the spectrum-adapted Chebyshev-Accelerated Newton–Schulz (CANS, Muon-V2).
+
+To better highlight the differences between clipped and unclipped training, we deliberately used a high learning rate. This setup causes the logits to grow rapidly, which makes instabilities appear much earlier and thus accentuates the contrast between runs with and without QK-Clipping.
+
+The evaluation followed two complementary steps:
+	•	Step 1: Observe the training dynamics (train loss curves) under both clipping and orthogonalization choices.
+	•	Step 2: Validate these observations on the synthetic test problems from the Behavioral Insights section, covering a spectrum from well-conditioned to severely ill-conditioned tasks.
+
 The test belows were realised with [Le Carnet](https://github.com/MaxLSB/le-carnet).
 
 <p align="center">
  <img src="/blog_media/loss_muon.png" alt=""  style="width: 90%; height: auto;"><br>
   <figcaption style="font-size:14px; font-style:italic; margin-top:5px;">
+   Training loss comparison of Muon variants with and without QK-Clipping, and with NS vs CANS orthogonalization.
   </figcaption>
 </p>
 
 <p align="center">
  <img src="/blog_media/val_muon.png" alt=""  style="width: 90%; height: auto;"><br>
   <figcaption style="font-size:14px; font-style:italic; margin-top:5px;">
+  Validation loss comparison of Muon variants with and without QK-Clipping, and with NS vs CANS orthogonalization.
   </figcaption>
 </p>
 
 ## Discussion
+From the curves we observe:
+	•	Without clipping (noclip): training rapidly stalls, with losses plateauing at higher values for both NS and CANS. This confirms that uncontrolled logit growth destabilizes optimization.
+	•	With QK-Clipping (clip / clip-est): training becomes stable, with losses steadily decreasing. Both NS and CANS benefit from clipping, but Muon-V1 (NS) consistently achieves slightly lower losses.
+	•	Overall: QK-Clipping proves to be essential for stable convergence, while NS remains the more reliable orthogonalization method compared to CANS.
+
+## Validation on Toy Models (table)
+
+To further validate these findings, we evaluated Muon with NS and CANS on the four synthetic models defined earlier (Cases 1–4), which cover a spectrum from well-conditioned to severely ill-conditioned.
 
 | Model         | Muon NS test loss    | Muon CANS test loss | 
 |---------------|-------------------------|-----------------------|
@@ -396,8 +418,18 @@ The test belows were realised with [Le Carnet](https://github.com/MaxLSB/le-carn
 | $f_{\theta_2}$   | 1.14 | 1.32 | 
 | $f_{\theta_3}$   | 0.66 | 0.95 | 
 | $f_{\theta_4}$   | 0.89 | 0.84 | 
-# Conclusion
 
+The results confirm the trends observed in the plots:
+	•	NS (V1) generally outperforms CANS (V2), particularly in moderately conditioned settings (Cases 2 and 3).
+	•	Only in the most constrained setup (Case 4) does CANS slightly edge out NS, but overall the traditional NS method remains the more effective and consistent choice.
+
+
+# Conclusion
+The experiments confirm that the Muon optimizer brings a clear advantage over classical optimizers like Adam in poorly conditioned or mis-specified settings. By orthogonalizing updates, Muon is able to maintain exploration in directions that Adam tends to ignore, leading to significantly better convergence and generalization when the optimization landscape is challenging.
+
+However, regarding orthogonalization strategies, our results show that the Chebyshev-Accelerated Newton–Schulz (CANS) method did not prove to be more effective than the traditional Newton–Schulz (NS) scheme in practice. While CANS is theoretically appealing due to its spectrum-adapted coefficients, in our experiments the classical NS iteration remained at least as effective, and often more stable.
+
+This suggests that, for now, NS orthogonalization remains the preferred approach for Muon, while CANS might require further refinements or more specific conditions to demonstrate its advantages.
 # References
 
 1. Keller Jordan, Yuchen Jin, Vlado Boza, Jiacheng You, Franz Cesista, Laker Newhouse, Jeremy Bernstein. "Muon: An optimizer for hidden layers in neural networks". Accessed 06.09.2025, URL: https://kellerjordan.github.io/posts/muon/ (2024)
