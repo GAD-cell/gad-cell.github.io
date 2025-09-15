@@ -377,12 +377,14 @@ The visualizations highlight a clear difference in the exploration behavior of A
 ## Experimental Protocol
 
 The experiments were designed with two main objectives:
+
 	1.	Verify the relevance of QK-Clipping as a stabilization technique when training with Muon.
 	2.	Compare orthogonalization strategies within Muon: the classical Newton–Schulz (NS, Muon-V1) versus the spectrum-adapted Chebyshev-Accelerated Newton–Schulz (CANS, Muon-V2).
 
 To better highlight the differences between clipped and unclipped training, we deliberately used a high learning rate. This setup causes the logits to grow rapidly, which makes instabilities appear much earlier and thus accentuates the contrast between runs with and without QK-Clipping.
 
 The evaluation followed two complementary steps:
+
 	•	Step 1: Observe the training dynamics (train loss curves) under both clipping and orthogonalization choices.
 	•	Step 2: Validate these observations on the synthetic test problems from the Behavioral Insights section, covering a spectrum from well-conditioned to severely ill-conditioned tasks.
 
