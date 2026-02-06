@@ -90,22 +90,23 @@ const site = defineCollection({
 });
 
 const notes = defineCollection({
-  loader: glob({
-    pattern: "**/*.md",
-    base: "./src/content/notes"
-  }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    publishedAt: z.coerce.date(),
-    category: z.string(),
-    draft: z.boolean().optional().default(false),
-    image: z.string().optional(), // URL de l’image illustrative
-    links: z.array(z.object({
-      type: z.enum(["github", "hf", "website"]), // ou autres types
-      url: z.string().url()
-    })).optional()
-  })
+    loader: glob({
+        pattern: "**/*.md",
+        base: "./src/content/notes"
+    }),
+    schema: z.object({
+        title: z.string(),
+        description: z.string(),
+        publishedAt: z.coerce.date(),
+        category: z.string(),
+        featured: z.boolean().optional().default(false),
+        draft: z.boolean().optional().default(false),
+        image: z.string().optional(), // URL de l’image illustrative
+        links: z.array(z.object({
+            type: z.enum(["github", "hf", "website"]), // ou autres types
+            url: z.string().url()
+        })).optional()
+    })
 });
 
 const bookmarks = defineCollection({
@@ -124,6 +125,22 @@ const bookmarks = defineCollection({
     })
 });
 
+const papers = defineCollection({
+    loader: glob({
+        pattern: "**/*.md",
+        base: "./src/content/papers"
+    }),
+    schema: z.object({
+        title: z.string(),
+        description: z.string(),
+        publishedAt: z.coerce.date(),
+        pdfUrl: z.string().url(),
+        conference: z.string().optional(),
+        featured: z.boolean().optional().default(false),
+        draft: z.boolean().optional().default(false),
+    })
+});
+
 export const collections = {
     blog,
     experience,
@@ -132,4 +149,5 @@ export const collections = {
     site,
     notes,
     bookmarks,
+    papers,
 }; 

@@ -3,6 +3,7 @@ title: "Luth"
 description: "Luth: Efficient French specialization for small language models. Achieved SOTA results on French benchmarks while retaining performance in other languages. Collaborated with LiquidAI to release Luth-LFM2, a series of SLMs fine-tuned for French."
 publishedAt: 2025-08-15
 category: "Web"
+featured: true
 draft: false
 image: "/images/projects/luth.png"
 links:

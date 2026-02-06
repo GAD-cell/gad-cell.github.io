@@ -52,11 +52,11 @@ const formattedDate = date.toLocaleDateString("fr-FR", {
   margin-bottom: 2rem;
   align-items: flex-warp;
   max-width: none;
-  border: 1px solid var(--border-color, #ccc);
+  border: 1px solid var(--border-color, #e0e0e0);
   border-radius: 12px;
   padding: 1rem;
-  background-color: var(--card-bg, #1f1f1f);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  background-color: var(--card-bg, #ffffff);
+  box-shadow: var(--shadow-sm);
 }
 
 .article-image {
@@ -90,11 +90,12 @@ const formattedDate = date.toLocaleDateString("fr-FR", {
   font-weight: 700;       /* Titre bien affirmé */
   letter-spacing: -0.5px; /* Compact et moderne */
   line-height: 1.2;       /* Plus dynamique */
+  color: var(--text-color);
 }
 
 .article-date {
   font-size: 0.875rem;
-  color: var(--muted-text, #888);
+  color: var(--text-muted);
 }
 
 .article-description {

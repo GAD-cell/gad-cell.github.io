@@ -1,0 +1,105 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../components/layout/BaseLayout.astro";
+import BaseHero from "../../components/shared/BaseHero.astro";
+import Container from "../../components/ui/Container.astro";
+import ContentList from "../../components/shared/ContentList.astro";
+
+const papers = await getCollection("papers", ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+const sortedPapers = papers.sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+);
+---
+
+<BaseLayout title="Papers" description="Research papers and publications">
+  <Container>
+    <BaseHero title="Papers" description="Research papers and publications" />
+    <ContentList>
+      {sortedPapers.map((paper) => (
+        <article class="paper-card">
+          <div class="paper-content">
+            <div class="paper-header">
+                <h3>{paper.data.title}</h3>
+                <span class="date">{paper.data.publishedAt.getFullYear()}</span>
+            </div>
+            {paper.data.conference && <div class="conference">{paper.data.conference}</div>}
+            <p>{paper.data.description}</p>
+            <a href={paper.data.pdfUrl} target="_blank" class="pdf-link">
+                Read PDF
+            </a>
+          </div>
+        </article>
+      ))}
+    </ContentList>
+  </Container>
+</BaseLayout>
+
+<style>
+  .paper-card {
+    padding: 1.5rem;
+    background: var(--bg-color-window);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    transition: box-shadow 0.2s ease;
+  }
+
+  .paper-card:hover {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .paper-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.5rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0;
+  }
+
+  .date {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+  }
+
+  .conference {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    background: var(--bg-color-muted);
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  p {
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+  .pdf-link {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: var(--text-color);
+    color: var(--bg-color);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+
+  .pdf-link:hover {
+    opacity: 0.9;
+  }
+</style>

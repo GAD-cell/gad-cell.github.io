@@ -14,6 +14,7 @@ const isActive = (path: string) => {
       NAVIGATION.map(({ name, path }) => (
         <a href={path} class={isActive(path) ? "active" : ""}>
           {name}
+          {isActive(path) && <span class="active-indicator" transition:name="active-indicator" />}
         </a>
       ))
     }
@@ -23,45 +24,47 @@ const isActive = (path: string) => {
 <style>
   nav {
     display: flex;
-    align-items: center;
+    justify-content: center;
+    padding: 1rem 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
 
   .nav-links {
     display: flex;
-    gap: 1.5rem;
-  }
-
-  .nav-links a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: var(--text-sm);
-    transition: color var(--transition-base);
-    position: relative;
+    gap: 2rem;
   }
 
   a {
     color: var(--text-muted);
     text-decoration: none;
     font-size: var(--text-sm);
-    transition: color var(--transition-base);
+    font-weight: 500;
+    padding: 0.5rem 0;
     position: relative;
+    transition: color 0.2s ease;
   }
 
   a:hover {
-    color: var(--color-text);
+    color: var(--text-color);
   }
 
   a.active {
-    color: var(--color-text) !important;
+    color: var(--text-color);
   }
 
-  a.active::after {
-    content: "";
+  .active-indicator {
     position: absolute;
-    bottom: -2px;
+    bottom: -1px;
     left: 0;
     width: 100%;
-    height: 1px;
-    background: var(--text-muted);
+    height: 2px;
+    background: var(--text-color);
+    border-radius: 2px 2px 0 0;
   }
 </style>
