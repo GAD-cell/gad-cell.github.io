@@ -110,11 +110,8 @@ const latestPaper = papers.sort((a, b) => b.data.publishedAt.getTime() - a.data.
     margin-bottom: 4rem;
     padding: 2rem;
     background: var(--card-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border-color);
-    border-radius: 16px;
-    box-shadow: var(--shadow-sm);
+    border-radius: 8px;
   }
 
   .profile-header {
@@ -128,18 +125,15 @@ const latestPaper = papers.sort((a, b) => b.data.publishedAt.getTime() - a.data.
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid rgba(255, 255, 255, 0.1);
-    box-shadow: var(--shadow-glow);
+    border: 1px solid var(--border-color);
   }
 
   .profile-info h1 {
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 0.25rem;
-    background: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
+    color: var(--text-color);
+    letter-spacing: -0.02em;
   }
 
   .subtitle {
@@ -219,20 +213,17 @@ const latestPaper = papers.sort((a, b) => b.data.publishedAt.getTime() - a.data.
     display: block;
     padding: 1.5rem;
     background: var(--card-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: 6px;
     transition: all var(--transition-base);
     text-decoration: none;
     color: inherit;
   }
 
   .card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-glow);
-    border-color: rgba(56, 189, 248, 0.4);
+    border-color: #000000;
     background: var(--hover-bg);
+    box-shadow: var(--shadow-sm);
   }
 
   .card h3 {
@@ -295,19 +286,16 @@ const latestPaper = papers.sort((a, b) => b.data.publishedAt.getTime() - a.data.
   /* Paper Highlight Styles */
   .paper-highlight {
     background: var(--card-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border-color);
-    border-radius: 16px;
+    border-radius: 6px;
     padding: 2rem;
     transition: all var(--transition-base);
   }
   
   .paper-highlight:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-glow);
-    border-color: rgba(56, 189, 248, 0.4);
+    border-color: #000000;
     background: var(--hover-bg);
+    box-shadow: var(--shadow-sm);
   }
 
   .paper-highlight h3 {
