@@ -109,9 +109,11 @@ const latestPaper = papers.sort((a, b) => b.data.publishedAt.getTime() - a.data.
   .hero-section {
     margin-bottom: 4rem;
     padding: 2rem;
-    background: #fff;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: 16px;
     box-shadow: var(--shadow-sm);
   }
 
@@ -126,17 +128,18 @@ const latestPaper = papers.sort((a, b) => b.data.publishedAt.getTime() - a.data.
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #fff;
-    box-shadow: var(--shadow-sm);
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow-glow);
   }
 
   .profile-info h1 {
-    font-size: 2rem;
-    font-weight: 600;
+    font-size: 2.5rem;
+    font-weight: 700;
     margin-bottom: 0.25rem;
-    background: none;
-    -webkit-text-fill-color: initial;
-    color: var(--text-color);
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
 
   .subtitle {
@@ -215,18 +218,21 @@ const latestPaper = papers.sort((a, b) => b.data.publishedAt.getTime() - a.data.
   .card {
     display: block;
     padding: 1.5rem;
-    background: #fff;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border-color);
-    border-radius: 8px;
-    transition: all 0.2s ease;
+    border-radius: 12px;
+    transition: all var(--transition-base);
     text-decoration: none;
     color: inherit;
   }
 
   .card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
-    border-color: var(--text-muted);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-glow);
+    border-color: rgba(56, 189, 248, 0.4);
+    background: var(--hover-bg);
   }
 
   .card h3 {
@@ -288,16 +294,20 @@ const latestPaper = papers.sort((a, b) => b.data.publishedAt.getTime() - a.data.
 
   /* Paper Highlight Styles */
   .paper-highlight {
-    background: #fff;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 2rem;
-    transition: box-shadow 0.2s;
+    transition: all var(--transition-base);
   }
   
   .paper-highlight:hover {
-    box-shadow: var(--shadow-sm);
-    border-color: var(--text-muted);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-glow);
+    border-color: rgba(56, 189, 248, 0.4);
+    background: var(--hover-bg);
   }
 
   .paper-highlight h3 {

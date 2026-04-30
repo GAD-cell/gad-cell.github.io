@@ -27,8 +27,9 @@ const isActive = (path: string) => {
     justify-content: center;
     padding: 1rem 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(12px);
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0;
@@ -64,7 +65,8 @@ const isActive = (path: string) => {
     left: 0;
     width: 100%;
     height: 2px;
-    background: var(--text-color);
+    background: var(--link-color);
     border-radius: 2px 2px 0 0;
+    box-shadow: 0 -2px 10px var(--link-color);
   }
 </style>
