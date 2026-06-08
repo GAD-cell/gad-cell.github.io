@@ -23,5 +23,8 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241230.0",
     "wrangler": "^3.99.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "sharp", "workerd"]
   }
 }
