@@ -2,7 +2,6 @@
 import 'katex/dist/katex.min.css';
 import { getCollection, render } from "astro:content";
 import type { GetStaticPaths } from "astro";
-import BaseLayout from "../../components/layout/BaseLayout.astro";
 
 export const getStaticPaths = (async () => {
   const posts = await getCollection("blog");
@@ -15,108 +14,116 @@ export const getStaticPaths = (async () => {
 const { post } = Astro.props;
 const { Content } = await render(post);
 
-const formatDate = (date: Date) => {
-  return date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-};
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
-  <article class="post">
-    <header>
-      <h1>{post.data.title}</h1>
-      <time datetime={post.data.publishedAt.toISOString()}>
-        {formatDate(post.data.publishedAt)}
-      </time>
-    </header>
-    <div class="content">
-      <Content />
-    </div>
-  </article>
-</BaseLayout>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{post.data.title}</title>
+    <meta name="description" content={post.data.description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <main>
+      <p class="back"><a href="/">← back</a></p>
+      <article>
+        <h1>{post.data.title}</h1>
+        <time datetime={post.data.publishedAt.toISOString()}>
+          {formatDate(post.data.publishedAt)}
+        </time>
+        <div class="content">
+          <Content />
+        </div>
+      </article>
+    </main>
+  </body>
+</html>
 
 <style>
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #111;
+    background: #fff;
+    margin: 0;
+    padding: 2rem 1rem;
+  }
+
   main {
-    width: 100%;
-    max-width: 100%;
+    max-width: 680px;
     margin: 0 auto;
-    padding: 2rem 1.5rem;
   }
 
-  .post {
-    margin-top: 2rem;
-    max-width: 65ch;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  header {
+  .back {
     margin-bottom: 2rem;
+    font-size: 0.9rem;
   }
 
   h1 {
-    margin-bottom: 0.5rem;
+    font-size: 1.6rem;
+    margin: 0 0 0.5rem;
   }
 
   time {
-    color: var(--text-muted);
-    font-size: var(--text-sm);
+    color: #666;
+    font-size: 0.9rem;
   }
 
   .content {
+    margin-top: 2rem;
     line-height: 1.7;
-    font-size: 1.0rem; /* ≈ 18px */
   }
 
   .content :global(h2) {
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    margin: 2rem 0 0.75rem;
   }
 
   .content :global(h3) {
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+    margin: 1.5rem 0 0.5rem;
   }
 
   .content :global(p) {
-    margin-bottom: 1.25rem;
-  }
-
-  .content :global(img) {
-    border-radius: 0.5rem;
-    margin: 1.5rem 0;
-  }
-
-  .content :global(blockquote) {
-    border-left: 3px solid var(--border-color);
-    padding-left: 1.5rem;
-    margin: 1.5rem 0;
-    color: var(--text-muted);
-  }
-
-  .content :global(pre) {
-    padding: 1rem;
-    border-radius: 0.5rem;
-    background: var(--hover-bg);
-    overflow-x: auto;
-    margin: 1.5rem 0;
-  }
-
-  .content :global(p) {
-    max-width: 100%;
-  }
-
-  .content :global(code) {
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
+    margin-bottom: 1.2rem;
   }
 
   .content :global(a) {
-    text-decoration-thickness: 1px;
-    text-underline-offset: 2px;
+    color: #00e;
+  }
+
+  .content :global(a:visited) {
+    color: #551a8b;
+  }
+
+  .content :global(blockquote) {
+    border-left: 3px solid #ccc;
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    color: #555;
+  }
+
+  .content :global(pre) {
+    background: #f5f5f5;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    font-size: 0.875rem;
+  }
+
+  .content :global(code) {
+    font-family: "Roboto Mono", monospace;
+    font-size: 0.875rem;
+  }
+
+  .content :global(img) {
+    max-width: 100%;
+    margin: 1.5rem 0;
   }
 
   .content :global(ul),
@@ -126,7 +133,7 @@ const formatDate = (date: Date) => {
   }
 
   .content :global(li) {
-    margin: 0.5rem 0;
+    margin: 0.4rem 0;
   }
 
   .content :global(table) {
@@ -138,30 +145,13 @@ const formatDate = (date: Date) => {
 
   .content :global(th),
   .content :global(td) {
-    padding: 0.75rem;
-    border: 1px solid var(--border-color);
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ddd;
     text-align: left;
   }
 
   .content :global(th) {
-    background-color: var(--bg-color-muted);
+    background: #f5f5f5;
     font-weight: 600;
-  }
-
-  .content :global(tr:nth-child(even)) {
-    background-color: var(--hover-bg);
-  }
-
-  .content :global(.table-wrapper) {
-    overflow-x: auto;
-    margin: 1.5rem 0;
-    border-radius: 0.5rem;
-    border: 1px solid var(--border-color);
-  }
-
-  @media (max-width: 640px) {
-    main {
-      padding: 1rem;
-    }
   }
 </style>

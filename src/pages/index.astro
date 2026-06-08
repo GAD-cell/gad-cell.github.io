@@ -39,8 +39,13 @@ function formatDate(date: Date) {
   </head>
   <body>
     <main>
-      <h1>Sinoué GAD</h1>
-      <p class="subtitle">Machine Learning Scientist · MTS Intern at Liquid AI (post-training)</p>
+      <div class="header">
+        <img src="/images/pp_pro.png" alt="Sinoué GAD" class="avatar" />
+        <div>
+          <h1>Sinoué GAD</h1>
+          <p class="subtitle">Machine Learning Scientist · MTS Intern at Liquid AI (post-training)</p>
+        </div>
+      </div>
 
       <p class="description">
         <!-- TODO: add your description here -->
@@ -106,6 +111,21 @@ function formatDate(date: Date) {
     margin: 0 auto;
   }
 
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
   h1 {
     font-size: 1.6rem;
     font-weight: bold;
@@ -119,7 +139,7 @@ function formatDate(date: Date) {
   }
 
   .subtitle {
-    margin: 0 0 1rem;
+    margin: 0;
     color: #444;
   }
 
