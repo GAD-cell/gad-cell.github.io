@@ -16,6 +16,13 @@ const sortedPapers = papers.sort(
   (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
 );
 
+const projects = await getCollection("notes", ({ data }: CollectionEntry<"notes">) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+const sortedProjects = projects.sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+);
+
 const socialLinks = [
   { label: "GitHub", url: "https://github.com/GAD-cell" },
   { label: "LinkedIn", url: "https://www.linkedin.com/in/sinou%C3%A9-gad-98b7b324b/" },
@@ -50,7 +57,7 @@ function formatDate(date: Date) {
 
       <p class="description">
         <!-- TODO: add your description here -->
-        <em style="color: #999;">[description placeholder]</em>
+        <em style="color: #999;"></em>
       </p>
 
       <p class="links">
@@ -90,6 +97,25 @@ function formatDate(date: Date) {
             <li>
               <a href={`/blog/${post.id}`}>{post.data.title}</a>
               <span class="meta"> — {formatDate(post.data.publishedAt)}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <hr />
+
+      <section>
+        <h2>Projects</h2>
+        <ul>
+          {sortedProjects.map((project) => (
+            <li>
+              <span class="project-title">{project.data.title}</span>
+              {project.data.links && project.data.links.map((link: { type: string; url: string }) => (
+                <a href={link.url} target="_blank" rel="noopener noreferrer" class="project-link">
+                  [{link.type === "hf" ? "HuggingFace" : link.type}]
+                </a>
+              ))}
+              {project.data.description && <span class="meta"> — {project.data.description}</span>}
             </li>
           ))}
         </ul>
@@ -192,6 +218,15 @@ function formatDate(date: Date) {
 
   .resume-btn:hover {
     background: #f0f0f0;
+  }
+
+  .project-title {
+    font-weight: bold;
+  }
+
+  .project-link {
+    margin-left: 0.4rem;
+    font-size: 0.85rem;
   }
 
   .meta {
