@@ -20,6 +20,7 @@ const socialLinks = [
   { label: "GitHub", url: "https://github.com/GAD-cell" },
   { label: "LinkedIn", url: "https://www.linkedin.com/in/sinou%C3%A9-gad-98b7b324b/" },
   { label: "HuggingFace", url: "https://huggingface.co/GAD-cell" },
+  { label: "Scholar", url: "https://scholar.google.com/citations?hl=en&user=R0zzGSsAAAAJ" },
 ];
 
 function formatDate(date: Date) {
@@ -60,6 +61,8 @@ function formatDate(date: Date) {
           </>
         ))}
       </p>
+
+      <p><a href="/CV_GAD.pdf" download class="resume-btn">Download CV</a></p>
 
       <hr />
 
@@ -174,6 +177,21 @@ function formatDate(date: Date) {
 
   a:visited {
     color: #551a8b;
+  }
+
+  .resume-btn {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    color: #111;
+    text-decoration: none;
+    font-family: inherit;
+  }
+
+  .resume-btn:hover {
+    background: #f0f0f0;
   }
 
   .meta {
